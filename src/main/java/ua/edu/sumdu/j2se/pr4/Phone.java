@@ -3,7 +3,7 @@ package ua.edu.sumdu.j2se.pr4;
 import java.util.Objects;
 
 /**
- * Клас, що описує мобільний телефон.
+ * Базовий клас, що описує мобільний телефон.
  */
 public class Phone {
     private String brand;
@@ -11,14 +11,8 @@ public class Phone {
     private double price;
     private int memoryGB;
     private int batteryCapacity;
-    private OSType osType; // Нове поле enum
+    private OSType osType;
 
-    // СТАТИЧНЕ ПОЛЕ (Лічильник)
-    private static int totalPhonesCreated = 0;
-
-    /**
-     * Основний конструктор.
-     */
     public Phone(String brand, String model, double price, int memoryGB, int batteryCapacity, OSType osType) {
         setBrand(brand);
         setModel(model);
@@ -26,33 +20,8 @@ public class Phone {
         setMemoryGB(memoryGB);
         setBatteryCapacity(batteryCapacity);
         setOsType(osType);
-        
-        totalPhonesCreated++; // Збільшуємо лічильник при створенні
     }
 
-    /**
-     * Конструктор копіювання.
-     */
-    public Phone(Phone other) {
-        if (other == null) {
-            throw new IllegalArgumentException("Об'єкт для копіювання не може бути null");
-        }
-        this.brand = other.brand;
-        this.model = other.model;
-        this.price = other.price;
-        this.memoryGB = other.memoryGB;
-        this.batteryCapacity = other.batteryCapacity;
-        this.osType = other.osType;
-        
-        totalPhonesCreated++; // Збільшуємо лічильник і для копій
-    }
-
-    // Статичний метод для отримання лічильника
-    public static int getTotalPhonesCreated() {
-        return totalPhonesCreated;
-    }
-
-    // Гетери та Сетери
     public String getBrand() { return brand; }
     public void setBrand(String brand) {
         if (brand == null || brand.trim().isEmpty()) throw new IllegalArgumentException("Бренд не може бути порожнім.");
@@ -91,7 +60,7 @@ public class Phone {
 
     @Override
     public String toString() {
-        return String.format("Phone [Бренд: %s, Модель: %s, ОС: %s, Ціна: $%.2f]", brand, model, osType, price);
+        return String.format("[Телефон] %s %s (%s) - $%.2f", brand, model, osType, price);
     }
 
     @Override
