@@ -6,6 +6,7 @@ import java.util.Objects;
  * Базовий клас, що описує мобільний телефон.
  */
 public class Phone {
+    protected String type; // Додано для ідентифікації при читанні JSON
     private String brand;
     private String model;
     private double price;
@@ -13,7 +14,13 @@ public class Phone {
     private int batteryCapacity;
     private OSType osType;
 
+    // Порожній конструктор для Gson
+    public Phone() {
+        this.type = "Phone";
+    }
+
     public Phone(String brand, String model, double price, int memoryGB, int batteryCapacity, OSType osType) {
+        this.type = "Phone"; // За замовчуванням для базового класу
         setBrand(brand);
         setModel(model);
         setPrice(price);
@@ -21,6 +28,8 @@ public class Phone {
         setBatteryCapacity(batteryCapacity);
         setOsType(osType);
     }
+
+    public String getType() { return type; }
 
     public String getBrand() { return brand; }
     public void setBrand(String brand) {
@@ -60,7 +69,7 @@ public class Phone {
 
     @Override
     public String toString() {
-        return String.format("[Телефон] %s %s (%s) - $%.2f", brand, model, osType, price);
+        return String.format("[%s] %s %s (%s) - $%.2f", type, brand, model, osType, price);
     }
 
     @Override
