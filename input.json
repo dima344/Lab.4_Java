@@ -1,0 +1,13 @@
+[
+  {
+    "screenSize": 6.6,
+    "hasNFC": true,
+    "type": "SmartPhone",
+    "brand": "OPPO",
+    "model": "A6 Pro",
+    "price": 320.0,
+    "memoryGB": 256,
+    "batteryCapacity": 5500,
+    "osType": "ANDROID"
+  }
+]
