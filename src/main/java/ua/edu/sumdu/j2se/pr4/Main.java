@@ -1,14 +1,23 @@
 package ua.edu.sumdu.j2se.pr4;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
+    private static DatabaseManager dbManager; // Додано менеджер БД
 
     public static void main(String[] args) {
-        System.out.println("Дерев'янко Д. | ІН-31/2 | Лабораторна №11");
+        System.out.println("Дерев'янко Д. | ІН-31/2 | Лабораторна №12 (JDBC)");
 
-        // Ініціалізація магазину та завантаження даних
+        // ЧИТАННЯ КОНФІГУРАЦІЇ З ARGS
+        if (args.length > 0) {
+            System.out.println("Ініціалізація БД з файлу: " + args[0]);
+            dbManager = new DatabaseManager(args[0]);
+        } else {
+            System.out.println("⚠️ Шлях до файлу БД не передано через args. Збереження в БД вимкнено.");
+        }
+        
         Store store = new Store("Tech Shop Sumy");
         store.getInventory().addAll(FileStorage.loadFromJson());
 
@@ -44,33 +53,31 @@ public class Main {
             System.out.println("❌ Магазин порожній. Немає що шукати.");
             return;
         }
-
         boolean searching = true;
         while (searching) {
             System.out.println("\n--- Підменю: Пошук об'єктів ---");
-            System.out.println("1. Пошук за брендом");
-            System.out.println("2. Пошук за діапазоном ціни");
-            System.out.println("3. Пошук за мінімальним об'ємом пам'яті");
-            System.out.println("0. Повернутися до головного меню");
-            System.out.print("Ваш вибір: ");
-
+            System.out.println("1. За брендом");
+            System.out.println("2. За діапазоном ціни");
+            System.out.println("3. За мінімальним об'ємом пам'яті");
+            System.out.println("0. Назад");
+            System.out.print("Вибір: ");
             String choice = scanner.nextLine().trim();
 
             switch (choice) {
                 case "1":
-                    System.out.print("Введіть назву бренду: ");
+                    System.out.print("Бренд: ");
                     store.searchByBrand(scanner.nextLine().trim());
                     break;
                 case "2":
                     try {
-                        System.out.print("Мінімальна ціна: "); double min = Double.parseDouble(scanner.nextLine());
-                        System.out.print("Максимальна ціна: "); double max = Double.parseDouble(scanner.nextLine());
+                        System.out.print("Мін. ціна: "); double min = Double.parseDouble(scanner.nextLine());
+                        System.out.print("Макс. ціна: "); double max = Double.parseDouble(scanner.nextLine());
                         store.searchByPriceRange(min, max);
                     } catch (Exception e) { System.out.println("❌ Помилка вводу."); }
                     break;
                 case "3":
                     try {
-                        System.out.print("Мінімальна пам'ять (GB): ");
+                        System.out.print("Мін. пам'ять (GB): ");
                         store.searchByMinMemory(Integer.parseInt(scanner.nextLine().trim()));
                     } catch (Exception e) { System.out.println("❌ Помилка вводу."); }
                     break;
@@ -131,6 +138,11 @@ public class Main {
             }
             
             store.addNewPhone(phone, quantity);
+
+            // ЗБЕРЕЖЕННЯ В БД (JDBC)
+            if (dbManager != null) {
+                dbManager.insertPhone(phone);
+            }
 
         } catch (Exception e) {
             System.out.println("❌ Помилка: Невірний формат даних. Створення скасовано.");

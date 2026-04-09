@@ -10,5 +10,19 @@
       "osType": "OTHER"
     },
     "quantity": 7
+  },
+  {
+    "phone": {
+      "screenSize": 6.7,
+      "hasNFC": true,
+      "type": "SmartPhone",
+      "brand": "Samsung",
+      "model": "Galaxy S26",
+      "price": 1700.0,
+      "memoryGB": 512,
+      "batteryCapacity": 5800,
+      "osType": "ANDROID"
+    },
+    "quantity": 2
   }
 ]
