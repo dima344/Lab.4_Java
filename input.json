@@ -24,5 +24,19 @@
       "osType": "ANDROID"
     },
     "quantity": 2
+  },
+  {
+    "phone": {
+      "screenSize": 6.1,
+      "hasNFC": true,
+      "type": "SmartPhone",
+      "brand": "iPhone",
+      "model": "17 pro max",
+      "price": 1400.0,
+      "memoryGB": 256,
+      "batteryCapacity": 5400,
+      "osType": "ANDROID"
+    },
+    "quantity": 1
   }
 ]

@@ -13,9 +13,9 @@ public class FileStorage {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter(FILE_NAME)) {
             gson.toJson(inventory, writer);
-            System.out.println("💾 Дані успішно збережено у файл " + FILE_NAME);
+            System.out.println("💾 Збережено у файл.");
         } catch (IOException e) {
-            System.out.println("❌ Помилка запису: " + e.getMessage());
+            System.out.println("❌ Помилка запису.");
         }
     }
 
@@ -27,10 +27,9 @@ public class FileStorage {
 
             for (JsonElement element : jsonArray) {
                 JsonObject itemObj = element.getAsJsonObject();
-                int quantity = itemObj.has("quantity") ? itemObj.get("quantity").getAsInt() : 1;
-                
+                int quantity = itemObj.get("quantity").getAsInt();
                 JsonObject phoneObj = itemObj.getAsJsonObject("phone");
-                String type = phoneObj.has("type") ? phoneObj.get("type").getAsString() : "Phone";
+                String type = phoneObj.get("type").getAsString();
 
                 Phone parsedPhone = null;
                 switch (type) {
@@ -38,13 +37,12 @@ public class FileStorage {
                     case "KeypadPhone": parsedPhone = gson.fromJson(phoneObj, KeypadPhone.class); break;
                     case "GamingPhone": parsedPhone = gson.fromJson(phoneObj, GamingPhone.class); break;
                     case "SatellitePhone": parsedPhone = gson.fromJson(phoneObj, SatellitePhone.class); break;
-                    default: parsedPhone = gson.fromJson(phoneObj, Phone.class); break;
+                    default: parsedPhone = gson.fromJson(phoneObj, BasicPhone.class); break;
                 }
                 inventory.add(new StoreItem(parsedPhone, quantity));
             }
-            System.out.println("📂 Базу даних успішно завантажено. Позицій: " + inventory.size());
         } catch (Exception e) {
-            System.out.println("⚠️ Файл бази відсутній або порожній. Створено новий магазин.");
+            System.out.println("⚠️ Нова база ініціалізована.");
         }
         return inventory;
     }
