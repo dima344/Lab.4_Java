@@ -15,7 +15,7 @@
     </properties>
 
     <dependencies>
-        <!-- Бібліотека Gson для роботи з JSON (Додано для ЛР №9) -->
+        <!-- Бібліотека Gson для роботи з JSON (ЛР №9) -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -34,6 +34,13 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.10.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Драйвер для підключення до PostgreSQL (ЛР №12) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.2</version>
         </dependency>
     </dependencies>
 </project>
