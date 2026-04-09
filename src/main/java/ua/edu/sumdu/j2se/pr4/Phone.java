@@ -3,10 +3,11 @@ package ua.edu.sumdu.j2se.pr4;
 import java.util.Objects;
 
 /**
- * Базовий клас, що описує мобільний телефон.
+ * АБСТРАКТНИЙ базовий клас, що описує мобільний телефон.
+ * Реалізує інтерфейс Comparable для сортування за ціною.
  */
-public class Phone {
-    protected String type; // Додано для ідентифікації при читанні JSON
+public abstract class Phone implements Comparable<Phone> {
+    protected String type; 
     private String brand;
     private String model;
     private double price;
@@ -14,19 +15,31 @@ public class Phone {
     private int batteryCapacity;
     private OSType osType;
 
-    // Порожній конструктор для Gson
     public Phone() {
         this.type = "Phone";
     }
 
     public Phone(String brand, String model, double price, int memoryGB, int batteryCapacity, OSType osType) {
-        this.type = "Phone"; // За замовчуванням для базового класу
+        this.type = "Phone"; 
         setBrand(brand);
         setModel(model);
         setPrice(price);
         setMemoryGB(memoryGB);
         setBatteryCapacity(batteryCapacity);
         setOsType(osType);
+    }
+
+    // РЕАЛІЗАЦІЯ ІНТЕРФЕЙСУ Comparable
+    @Override
+    public int compareTo(Phone other) {
+        // Сортуємо за ціною (від найменшої до найбільшої)
+        int priceComparison = Double.compare(this.price, other.price);
+        
+        // Якщо ціна однакова, сортуємо за брендом за алфавітом
+        if (priceComparison == 0) {
+            return this.brand.compareToIgnoreCase(other.brand);
+        }
+        return priceComparison;
     }
 
     public String getType() { return type; }
