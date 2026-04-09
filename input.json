@@ -1,13 +1,14 @@
 [
   {
-    "screenSize": 6.6,
-    "hasNFC": true,
-    "type": "SmartPhone",
-    "brand": "OPPO",
-    "model": "A6 Pro",
-    "price": 320.0,
-    "memoryGB": 256,
-    "batteryCapacity": 5500,
-    "osType": "ANDROID"
+    "phone": {
+      "type": "Phone",
+      "brand": "Nokia",
+      "model": "3310",
+      "price": 50.0,
+      "memoryGB": 1,
+      "batteryCapacity": 1000,
+      "osType": "OTHER"
+    },
+    "quantity": 7
   }
 ]
