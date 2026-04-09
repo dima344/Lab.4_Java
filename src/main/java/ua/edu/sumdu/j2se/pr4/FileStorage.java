@@ -9,50 +9,43 @@ import java.util.ArrayList;
 public class FileStorage {
     private static final String FILE_NAME = "input.json";
 
-    public static void saveToJson(ArrayList<Phone> phones) {
+    public static void saveToJson(ArrayList<StoreItem> inventory) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter(FILE_NAME)) {
-            gson.toJson(phones, writer);
+            gson.toJson(inventory, writer);
             System.out.println("💾 Дані успішно збережено у файл " + FILE_NAME);
         } catch (IOException e) {
-            System.out.println("❌ Помилка запису у файл: " + e.getMessage());
+            System.out.println("❌ Помилка запису: " + e.getMessage());
         }
     }
 
-    public static ArrayList<Phone> loadFromJson() {
-        ArrayList<Phone> phones = new ArrayList<>();
+    public static ArrayList<StoreItem> loadFromJson() {
+        ArrayList<StoreItem> inventory = new ArrayList<>();
         try (FileReader reader = new FileReader(FILE_NAME)) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             Gson gson = new Gson();
 
             for (JsonElement element : jsonArray) {
-                JsonObject obj = element.getAsJsonObject();
-                String type = obj.has("type") ? obj.get("type").getAsString() : "";
+                JsonObject itemObj = element.getAsJsonObject();
+                int quantity = itemObj.has("quantity") ? itemObj.get("quantity").getAsInt() : 1;
+                
+                JsonObject phoneObj = itemObj.getAsJsonObject("phone");
+                String type = phoneObj.has("type") ? phoneObj.get("type").getAsString() : "Phone";
 
+                Phone parsedPhone = null;
                 switch (type) {
-                    case "SmartPhone":
-                        phones.add(gson.fromJson(obj, SmartPhone.class));
-                        break;
-                    case "KeypadPhone":
-                        phones.add(gson.fromJson(obj, KeypadPhone.class));
-                        break;
-                    case "GamingPhone":
-                        phones.add(gson.fromJson(obj, GamingPhone.class));
-                        break;
-                    case "SatellitePhone":
-                        phones.add(gson.fromJson(obj, SatellitePhone.class));
-                        break;
-                    default:
-                        phones.add(gson.fromJson(obj, Phone.class));
-                        break;
+                    case "SmartPhone": parsedPhone = gson.fromJson(phoneObj, SmartPhone.class); break;
+                    case "KeypadPhone": parsedPhone = gson.fromJson(phoneObj, KeypadPhone.class); break;
+                    case "GamingPhone": parsedPhone = gson.fromJson(phoneObj, GamingPhone.class); break;
+                    case "SatellitePhone": parsedPhone = gson.fromJson(phoneObj, SatellitePhone.class); break;
+                    default: parsedPhone = gson.fromJson(phoneObj, Phone.class); break;
                 }
+                inventory.add(new StoreItem(parsedPhone, quantity));
             }
-            System.out.println("📂 Дані успішно завантажено з файлу " + FILE_NAME + " (Знайдено: " + phones.size() + " шт.)");
-        } catch (IOException e) {
-            System.out.println("⚠️ Файл збереження відсутній або порожній. Створено нову базу.");
+            System.out.println("📂 Базу даних успішно завантажено. Позицій: " + inventory.size());
         } catch (Exception e) {
-            System.out.println("❌ Помилка обробки JSON: " + e.getMessage());
+            System.out.println("⚠️ Файл бази відсутній або порожній. Створено новий магазин.");
         }
-        return phones;
+        return inventory;
     }
 }
