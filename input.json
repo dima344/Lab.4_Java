@@ -1,10 +1,11 @@
 [
   {
     "phone": {
-      "type": "Phone",
+      "uuid": "de268e99-55c5-4dd5-968c-6f23c0ae826d",
+      "type": "BasicPhone",
       "brand": "Nokia",
       "model": "3310",
-      "price": 50.0,
+      "price": 35.0,
       "memoryGB": 1,
       "batteryCapacity": 1000,
       "osType": "OTHER"
@@ -15,6 +16,7 @@
     "phone": {
       "screenSize": 6.7,
       "hasNFC": true,
+      "uuid": "1e0a08b6-2abe-4999-be08-4050ca6f35d8",
       "type": "SmartPhone",
       "brand": "Samsung",
       "model": "Galaxy S26",
@@ -24,19 +26,5 @@
       "osType": "ANDROID"
     },
     "quantity": 2
-  },
-  {
-    "phone": {
-      "screenSize": 6.1,
-      "hasNFC": true,
-      "type": "SmartPhone",
-      "brand": "iPhone",
-      "model": "17 pro max",
-      "price": 1400.0,
-      "memoryGB": 256,
-      "batteryCapacity": 5400,
-      "osType": "ANDROID"
-    },
-    "quantity": 1
   }
 ]
