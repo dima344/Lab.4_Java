@@ -1,7 +1,7 @@
 package ua.edu.sumdu.j2se.pr4;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator; // Додано імпорт
 
 public class Store {
     private String storeName;
@@ -27,27 +27,57 @@ public class Store {
     }
 
     /**
-     * Сортування за допомогою Comparable
+     * Виводить відсортований інвентар, використовуючи переданий Comparator.
+     * @param comparator критерій сортування
      */
-    public void printSortedInventory() {
+    public void printSortedInventory(Comparator<StoreItem> comparator) {
         if (inventory.isEmpty()) {
-            System.out.println("Магазин порожній.");
+            System.out.println("Магазин порожній. Немає що сортувати.");
             return;
         }
 
-        // Сортуємо копію списку, щоб не псувати порядок у базі
+        // Сортуємо копію списку, щоб не псувати початковий порядок у базі
         ArrayList<StoreItem> sortedList = new ArrayList<>(inventory);
-        sortedList.sort((a, b) -> a.getPhone().compareTo(b.getPhone()));
+        
+        // Використовуємо дозволений метод sort
+        sortedList.sort(comparator);
 
-        System.out.println("\n--- ВІДСОРТОВАНИЙ ІНВЕНТАР (За ціною) ---");
+        System.out.println("\n--- ВІДСОРТОВАНИЙ ІНВЕНТАР ---");
         for (StoreItem item : sortedList) {
             System.out.println(item.toString());
         }
     }
 
     public void searchByBrand(String brand) {
+        boolean found = false;
         for (StoreItem item : inventory) {
-            if (item.getPhone().getBrand().equalsIgnoreCase(brand)) System.out.println(item);
+            if (item.getPhone().getBrand().equalsIgnoreCase(brand)) {
+                System.out.println(item);
+                found = true;
+            }
         }
+        if (!found) System.out.println("Об'єктів не знайдено.");
+    }
+
+    public void searchByPriceRange(double min, double max) {
+        boolean found = false;
+        for (StoreItem item : inventory) {
+            if (item.getPhone().getPrice() >= min && item.getPhone().getPrice() <= max) {
+                System.out.println(item);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("Об'єктів не знайдено.");
+    }
+
+    public void searchByMinMemory(int minMemory) {
+        boolean found = false;
+        for (StoreItem item : inventory) {
+            if (item.getPhone().getMemoryGB() >= minMemory) {
+                System.out.println(item);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("Об'єктів не знайдено.");
     }
 }
