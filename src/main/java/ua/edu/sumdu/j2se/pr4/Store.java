@@ -3,9 +3,6 @@ package ua.edu.sumdu.j2se.pr4;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-/**
- * Клас-контейнер Магазин, що агрегує товари (StoreItem).
- */
 public class Store {
     private String storeName;
     private ArrayList<StoreItem> inventory;
@@ -19,9 +16,6 @@ public class Store {
         return inventory;
     }
 
-    /**
-     * Додає телефон у магазин (Create).
-     */
     public void addNewPhone(Phone ph, int quantity) {
         for (StoreItem item : inventory) {
             if (item.getPhone().equals(ph)) {
@@ -35,42 +29,33 @@ public class Store {
     }
 
     // ==========================================
-    // МЕТОДИ ЛР №17 (Update & Delete)
+    // МЕТОДИ ЛР №18: Кидаємо ObjectNotFoundException
     // ==========================================
 
-    /**
-     * Модифікація об'єкта у колекції (Update).
-     * @param existingPhone об'єкт, який потрібно знайти (оригінал)
-     * @param newPhone новий об'єкт із зміненими даними
-     * @return true, якщо оновлено, false, якщо не знайдено
-     */
     public boolean update(Phone existingPhone, Phone newPhone) {
         for (StoreItem item : inventory) {
             if (item.getPhone().equals(existingPhone)) {
-                item.setPhone(newPhone); // Замінюємо посилання на новий об'єкт
+                item.setPhone(newPhone);
                 return true;
             }
         }
-        return false;
+        // Замість повернення false кидаємо наш власний виняток
+        throw new ObjectNotFoundException("Не вдалося оновити: телефон не знайдено в базі.");
     }
 
-    /**
-     * Видалення об'єкта з колекції (Delete).
-     * @param targetPhone об'єкт, який потрібно видалити
-     * @return true, якщо видалено, false, якщо не знайдено
-     */
     public boolean delete(Phone targetPhone) {
         for (int i = 0; i < inventory.size(); i++) {
             if (inventory.get(i).getPhone().equals(targetPhone)) {
-                inventory.remove(i); // Видаляємо елемент з масиву
+                inventory.remove(i);
                 return true;
             }
         }
-        return false;
+        // Замість повернення false кидаємо наш власний виняток
+        throw new ObjectNotFoundException("Не вдалося видалити: телефон не знайдено в базі.");
     }
 
     // ==========================================
-    // МЕТОДИ СОРТУВАННЯ ТА ПОШУКУ (З минулих ЛР)
+    // СОРТУВАННЯ ТА ПОШУК
     // ==========================================
 
     public void printSortedInventory(Comparator<StoreItem> comparator) {
